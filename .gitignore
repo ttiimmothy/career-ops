@@ -55,7 +55,7 @@ writing-samples/*
 !writing-samples/README.md
 
 # User config and customization (never auto-updated)
-config/profile.yml
+# config/profile.yml
 config/cv-facts.json
 config/benchmarks.yml
 # Fork-local path declarations — this checkout's own files, read by
