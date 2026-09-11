@@ -45,7 +45,7 @@ Execute the same as the `oferta` mode (read `modes/oferta.md` for all A-F blocks
 
 The evaluation inherits `oferta`'s bounded research budget. Company, compensation, and hiring-signal lookup must not invoke `deep-research`, must not spawn subagents, and must stop at the shared query cap instead of escalating into open-ended research.
 
-## Step 2 — Save Report .md
+## Step 2 — Save Report.md
 
 Save the full evaluation in `reports/{###}-{company-slug}-{YYYY-MM-DD}.md` (see format in `modes/oferta.md`).
 Include Block G in the saved report. Add **URL:** {url} and **Legitimacy:** {tier} to the report header.
