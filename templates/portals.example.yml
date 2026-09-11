@@ -598,20 +598,20 @@ search_queries:
   #   query: 'site:wellfound.com "Marketing Manager" OR "Sales Manager" OR "Customer Success Manager" remote'
   #   enabled: true
 
-  # -- Ashby (kept as AI example) --
-  - name: Ashby — AI Engineer
-    query: 'site:jobs.ashbyhq.com "AI Engineer" OR "LLM Engineer" OR "Forward Deployed" remote'
+  # -- Ashby (kept as Software example) --
+  - name: Ashby — Software Engineer
+    query: 'site:jobs.ashbyhq.com "Software Engineer" OR "Software Developer" OR "Forward Deployed" remote'
     enabled: true
 
-  # -- Greenhouse (kept as AI example) --
-  - name: Greenhouse — AI Engineer
-    query: 'site:boards.greenhouse.io OR site:job-boards.greenhouse.io "AI Engineer" OR "LLM" OR "Agentic" remote'
+  # -- Greenhouse (kept as Software Engineer example) --
+  - name: Greenhouse — Software Engineer Engineer
+    query: 'site:boards.greenhouse.io OR site:job-boards.greenhouse.io "Software Engineer" OR "Software Developer" OR "LLM" OR "Agentic" remote'
     enabled: true
 
 
-  # -- Workable (AI example) --
-  - name: Workable — AI Roles
-    query: 'site:apply.workable.com "AI" "Product Manager" OR "Solutions Architect" OR "AI Engineer" remote'
+  # -- Workable (Software Engineer example) --
+  - name: Workable — Software Engineer Roles
+    query: 'site:apply.workable.com "Software Engineer" "Software Developer" OR "Full Stack Developer" remote'
     enabled: true
 
   # -- No-Code / Low-Code / Automation (general purpose) --
@@ -627,205 +627,11 @@ search_queries:
     query: '"GTM Engineer" OR "RevOps Engineer" OR "Growth Engineer" automation Airtable OR Make OR Clay remote'
     enabled: true
 
-  # -- Remote-friendly Europe boards --
+  # -- Specialized boards (keep Software Engineer examples for pattern) --
 
-  - name: Remotive — AI/DevRel/SA/FDE
-    query: 'site:remotive.com "AI Engineer" OR "Developer Advocate" OR "Solutions Architect" OR "Forward Deployed" OR "DevRel" Europe'
+  - name: YC Jobs — DevRel/SE/FDE/Founding
+    query: 'site:ycombinator.com/jobs OR site:workatastartup.com "Forward Deployed" OR "Developer Advocate" OR "Founding Engineer" OR "Solutions Engineer" remote'
     enabled: true
-  # --- Broader search example (uncomment if not filtering by title, or update title_filter.positive to match) ---
-  # - name: Remotive — Tech Roles
-  #   query: 'site:remotive.com "Engineer" OR "Developer" OR "Manager" Europe'
-  #   enabled: true
-
-  - name: WeWorkRemotely — AI & DX
-    query: 'site:weworkremotely.com "AI" OR "DevRel" OR "Solutions Engineer" OR "Forward Deployed" OR "Founding Engineer"'
-    enabled: true
-  # --- Broader search example (uncomment if not filtering by title, or update title_filter.positive to match) ---
-  # - name: WeWorkRemotely — Tech & Operations
-  #   query: 'site:weworkremotely.com "Engineer" OR "Manager" OR "Operations" OR "Sales"'
-  #   enabled: true
-
-  - name: Working Nomads — AI/DevRel/SA
-    query: 'site:workingnomads.com "AI Engineer" OR "Developer Advocate" OR "Solutions Architect" OR "Forward Deployed"'
-    enabled: true
-  # --- Broader search example (uncomment if not filtering by title, or update title_filter.positive to match) ---
-  # - name: Working Nomads — Tech & Business
-  #   query: 'site:workingnomads.com "Engineer" OR "Manager" OR "Analyst" OR "Sales"'
-  #   enabled: true
-
-  - name: EU Remote Jobs — AI/DevRel/SA
-    query: 'site:euremotejobs.com "AI" OR "DevRel" OR "Solutions Architect" OR "Forward Deployed" OR "Founding Engineer"'
-    enabled: true
-  # --- Broader search example (uncomment if not filtering by title, or update title_filter.positive to match) ---
-  # - name: EU Remote Jobs — General
-  #   query: 'site:euremotejobs.com "Engineer" OR "Manager" OR "Analyst" OR "Sales"'
-  #   enabled: true
-
-  - name: RemoteOK — AI/DevRel/SA
-    query: 'site:remoteok.com "AI Engineer" OR "Developer Advocate" OR "Solutions Architect" OR "Forward Deployed" OR "Founding Engineer"'
-    enabled: true
-  # --- Broader search example (uncomment if not filtering by title, or update title_filter.positive to match) ---
-  # - name: RemoteOK — General
-  #   query: 'site:remoteok.com "Engineer" OR "Manager" OR "Analyst" OR "Sales"'
-  #   enabled: true
-
-  # -- Specialized boards (keep AI examples for pattern) --
-
-  - name: ai-jobs.net — DevRel/SA/FDE (AI example)
-    query: 'site:ai-jobs.net "Developer Advocate" OR "Solutions Architect" OR "Forward Deployed" OR "DevRel" remote Europe'
-    enabled: true
-
-  - name: fwddeploy.com — Forward Deployed roles (AI example)
-    query: 'site:fwddeploy.com "Forward Deployed" OR "Deployed Engineer" remote Europe OR EMEA'
-    enabled: true
-
-  - name: YC Jobs — DevRel/SA/FDE/Founding
-    query: 'site:ycombinator.com/jobs OR site:workatastartup.com "Forward Deployed" OR "Developer Advocate" OR "Founding Engineer" OR "Solutions Architect" remote'
-    enabled: true
-
-  - name: YC Jobs — Applied AI
-    query: 'site:workatastartup.com "Applied AI" OR "AI Engineer" OR "AI Agent" remote Europe'
-    enabled: true
-  # --- Broader search example (uncomment if not filtering by title, or update title_filter.positive to match) ---
-  # - name: YC Jobs — General Startup Roles
-  #   query: 'site:ycombinator.com/jobs OR site:workatastartup.com "Engineer" OR "Manager" OR "Sales" remote'
-  #   enabled: true
-
-  # -- Spanish market specialized (high-value for Madrid/Barcelona-based candidates) --
-
-  - name: Manfred — Tech Senior España
-    query: 'site:getmanfred.com/en/job-offers "Solutions Architect" OR "DevRel" OR "Forward Deployed" OR "AI Engineer" OR "Founding"'
-    enabled: true
-  # --- Broader search example (uncomment if not filtering by title, or update title_filter.positive to match) ---
-  # - name: Manfred — Tech Senior España (General)
-  #   query: 'site:getmanfred.com/en/job-offers "Engineer" OR "Manager" OR "Sales" OR "Founding"'
-  #   enabled: true
-
-  - name: Manfred — Remote AI/Senior
-    query: 'site:getmanfred.com "remote" "AI" OR "Senior" OR "Staff" OR "Lead"'
-    enabled: true
-  # --- Broader search example (uncomment if not filtering by title, or update title_filter.positive to match) ---
-  # - name: Manfred — Remote Senior (General)
-  #   query: 'site:getmanfred.com "remote" "Senior" OR "Staff" OR "Lead"'
-  #   enabled: true
-
-  - name: Tecnoempleo — España IT
-    query: 'site:tecnoempleo.com "AI Engineer" OR "Solutions Architect" OR "DevRel" OR "Forward Deployed" OR "Founding Engineer"'
-    enabled: true
-  # --- Broader search example (uncomment if not filtering by title, or update title_filter.positive to match) ---
-  # - name: Tecnoempleo — España IT (General)
-  #   query: 'site:tecnoempleo.com "Engineer" OR "Architect" OR "Manager" OR "Founding Engineer"'
-  #   enabled: true
-
-  - name: Tecnoempleo — Remoto Senior
-    query: 'site:tecnoempleo.com "remoto" OR "remote" Senior "AI" OR "Architect" OR "Lead"'
-    enabled: true
-  # --- Broader search example (uncomment if not filtering by title, or update title_filter.positive to match) ---
-  # - name: Tecnoempleo — Remoto Senior (General)
-  #   query: 'site:tecnoempleo.com "remoto" OR "remote" Senior "Engineer" OR "Architect" OR "Lead"'
-  #   enabled: true
-
-  - name: JobFluent — Spain startups
-    query: 'site:jobfluent.com Madrid OR Barcelona "AI" OR "Engineer" OR "Solutions" OR "DevRel"'
-    enabled: true
-  # --- Broader search example (uncomment if not filtering by title, or update title_filter.positive to match) ---
-  # - name: JobFluent — Spain startups (General)
-  #   query: 'site:jobfluent.com Madrid OR Barcelona "Engineer" OR "Manager" OR "Sales" OR "Marketing"'
-  #   enabled: true
-
-  # NOTE: Welcome to the Jungle isn't a Spain-only or tech-only board — it
-  # also runs a large France listing and covers non-tech professions. The
-  # name/query below is scoped narrowly to Spain+AI/tech on purpose, to match
-  # this example profile's targeting; broaden the site: query (e.g. drop
-  # "Spain OR Madrid OR Barcelona" for France, or swap the title terms for
-  # your own profession) if you want its wider listings.
-  - name: Welcome to the Jungle — Spain tech
-    query: 'site:welcometothejungle.com Spain OR Madrid OR Barcelona "AI Engineer" OR "Solutions Architect" OR "DevRel" OR "Forward Deployed"'
-    enabled: true
-  # --- Broader search example (uncomment if not filtering by title, or update title_filter.positive to match) ---
-  # - name: Welcome to the Jungle — Spain tech (General)
-  #   query: 'site:welcometothejungle.com Spain OR Madrid OR Barcelona "Engineer" OR "Manager" OR "Sales" OR "Marketing"'
-  #   enabled: true
-
-  # -- DevRel-specific boards (AI/DevTools example) --
-
-  - name: DevRelX Jobs
-    query: 'site:devrelx.com/jobs remote OR Europe OR EMEA'
-    enabled: true
-
-  - name: TrueUp — DevRel roles
-    query: 'site:trueup.io/devrel OR site:trueup.io "Developer Advocate" OR "DevRel" remote Europe'
-    enabled: true
-
-  - name: Remote Rocketship — DevRel
-    query: 'site:remoterocketship.com/jobs/developer-relations OR site:remoterocketship.com "DevRel" remote'
-    enabled: true
-
-  - name: DevRel Job board
-    query: 'site:devreljob.com remote OR Europe OR EMEA'
-    enabled: true
-
-  # -- European / global aggregators --
-
-  - name: Himalayas — Remote AI/Dev-tools
-    query: 'site:himalayas.app "AI Engineer" OR "Solutions Architect" OR "Developer Advocate" OR "Forward Deployed" OR "Founding Engineer" Europe'
-    enabled: true
-  # --- Broader search example (uncomment if not filtering by title, or update title_filter.positive to match) ---
-  # - name: Himalayas — Remote Tech
-  #   query: 'site:himalayas.app "Engineer" OR "Manager" OR "Developer" OR "Founding" Europe'
-  #   enabled: true
-
-  - name: Jooble — España Tech Senior
-    query: 'site:jooble.org "AI Engineer" OR "Solutions Architect" OR "DevRel" Madrid OR remote España'
-    enabled: true
-  # --- Broader search example (uncomment if not filtering by title, or update title_filter.positive to match) ---
-  # - name: Jooble — España Tech Senior (General)
-  #   query: 'site:jooble.org "Engineer" OR "Manager" OR "Developer" Madrid OR remote España'
-  #   enabled: true
-
-  - name: EU Data Jobs — AI/ML Europe
-    query: 'site:eudatajobs.com "AI" OR "ML" OR "Data" "Engineer" OR "Architect" remote Europe'
-    enabled: true
-  # --- Broader search example (uncomment if not filtering by title, or update title_filter.positive to match) ---
-  # - name: EU Data Jobs — Data Europe
-  #   query: 'site:eudatajobs.com "Data" "Engineer" OR "Architect" OR "Analyst" remote Europe'
-  #   enabled: true
-
-  - name: HN Who's Hiring — Remote AI
-    query: 'site:news.ycombinator.com OR site:hnrss.org "AI Engineer" OR "Forward Deployed" OR "DevRel" OR "Founding Engineer" remote'
-    enabled: true
-  # --- Broader search example (uncomment if not filtering by title, or update title_filter.positive to match) ---
-  # - name: HN Who's Hiring — Remote Tech
-  #   query: 'site:news.ycombinator.com OR site:hnrss.org "Engineer" OR "Manager" OR "Developer" remote'
-  #   enabled: true
-
-  # -- Türkiye / Turkey job portals --
-  # WebSearch queries for Turkish job boards (no public ATS APIs).
-  # [CUSTOMIZE] Replace keywords with your target roles in Turkish.
-
-  - name: Kariyer.net — Backend / Software Engineer
-    query: 'site:kariyer.net "Backend Developer" OR "Software Engineer" OR "Yazılım Geliştirici" OR "Backend Geliştirici" Ankara OR Istanbul OR uzaktan'
-    enabled: false
-
-  - name: Kariyer.net — Frontend Engineer
-    query: 'site:kariyer.net "Frontend Developer" OR "React Developer" OR "Frontend Geliştirici" Ankara OR Istanbul OR uzaktan'
-    enabled: false
-
-  - name: Yenibiris.com — Software Engineer
-    query: 'site:yenibiris.com "Software Engineer" OR "Backend Developer" OR "Frontend Developer" OR "Yazılım Geliştirici"'
-    enabled: false
-
-  - name: Secretcv.com — Tech Roles
-    query: 'site:secretcv.com "Software Engineer" OR "Backend" OR "Frontend" OR "Full Stack"'
-    enabled: false
-
-  - name: İşin Olsun — Startup / Tech
-    query: 'site:isinolsun.com "Yazılım" OR "Software" OR "Backend" OR "Frontend" OR "Full Stack"'
-    enabled: false
-
-  - name: LinkedIn — Turkey Tech Roles
-    query: 'site:linkedin.com/jobs "Software Engineer" OR "Backend Engineer" OR "Frontend Engineer" Turkey OR Türkiye OR Ankara OR Istanbul'
-    enabled: false
 
 # -- Tracked companies --
 # Companies whose career pages are checked directly.
@@ -1458,80 +1264,80 @@ tracked_companies:
 
   # -- AI Labs & LLM providers --
 
-  - name: Anthropic
-    careers_url: https://job-boards.greenhouse.io/anthropic
-    api: https://boards-api.greenhouse.io/v1/boards/anthropic/jobs
-    enabled: true
+  # - name: Anthropic
+  #   careers_url: https://job-boards.greenhouse.io/anthropic
+  #   api: https://boards-api.greenhouse.io/v1/boards/anthropic/jobs
+  #   enabled: true
 
-  - name: OpenAI
-    careers_url: https://openai.com/careers
-    scan_method: websearch
-    scan_query: 'site:openai.com/careers "Solutions" OR "Forward Deployed" OR "AI Engineer"'
-    enabled: true
+  # - name: OpenAI
+  #   careers_url: https://openai.com/careers
+  #   scan_method: websearch
+  #   scan_query: 'site:openai.com/careers "Solutions" OR "Forward Deployed" OR "AI Engineer"'
+  #   enabled: true
 
-  - name: ByteDance
-    careers_url: https://jobs.bytedance.com
-    keywords: ["AI", "大模型", "Agent"]
-    enabled: true
+  # - name: ByteDance
+  #   careers_url: https://jobs.bytedance.com
+  #   keywords: ["AI", "大模型", "Agent"]
+  #   enabled: true
 
-  - name: DeepSeek
-    careers_url: https://app.mokahr.com/social-recruitment/high-flyer/140576
-    keywords: ["AI", "大模型", "Agent"]
-    enabled: true
+  # - name: DeepSeek
+  #   careers_url: https://app.mokahr.com/social-recruitment/high-flyer/140576
+  #   keywords: ["AI", "大模型", "Agent"]
+  #   enabled: true
 
   # -- Voice AI & Conversational AI --
 
-  - name: PolyAI
-    careers_url: https://job-boards.eu.greenhouse.io/polyai
-    api: https://boards-api.greenhouse.io/v1/boards/polyai/jobs
-    notes: "UK. Voice AI for enterprise contact centers."
-    enabled: true
+  # - name: PolyAI
+  #   careers_url: https://job-boards.eu.greenhouse.io/polyai
+  #   api: https://boards-api.greenhouse.io/v1/boards/polyai/jobs
+  #   notes: "UK. Voice AI for enterprise contact centers."
+  #   enabled: true
 
-  - name: Parloa
-    careers_url: https://job-boards.eu.greenhouse.io/parloa
-    api: https://boards-api.greenhouse.io/v1/boards/parloa/jobs
-    notes: "Berlin EMEA. Voice AI enterprise."
-    enabled: true
+  # - name: Parloa
+  #   careers_url: https://job-boards.eu.greenhouse.io/parloa
+  #   api: https://boards-api.greenhouse.io/v1/boards/parloa/jobs
+  #   notes: "Berlin EMEA. Voice AI enterprise."
+  #   enabled: true
 
-  - name: Intercom
-    careers_url: https://job-boards.greenhouse.io/intercom
-    api: https://boards-api.greenhouse.io/v1/boards/intercom/jobs
-    notes: "Dublin EMEA. Fin AI agent."
-    enabled: true
+  # - name: Intercom
+  #   careers_url: https://job-boards.greenhouse.io/intercom
+  #   api: https://boards-api.greenhouse.io/v1/boards/intercom/jobs
+  #   notes: "Dublin EMEA. Fin AI agent."
+  #   enabled: true
 
-  - name: Hume AI
-    careers_url: https://job-boards.greenhouse.io/humeai
-    api: https://boards-api.greenhouse.io/v1/boards/humeai/jobs
-    notes: "NYC. Empathic voice AI."
-    enabled: true
+  # - name: Hume AI
+  #   careers_url: https://job-boards.greenhouse.io/humeai
+  #   api: https://boards-api.greenhouse.io/v1/boards/humeai/jobs
+  #   notes: "NYC. Empathic voice AI."
+  #   enabled: true
 
-  - name: ElevenLabs
-    careers_url: https://jobs.ashbyhq.com/elevenlabs
-    scan_method: websearch
-    scan_query: 'site:jobs.ashbyhq.com/elevenlabs'
-    notes: "Voice AI TTS leader."
-    enabled: true
+  # - name: ElevenLabs
+  #   careers_url: https://jobs.ashbyhq.com/elevenlabs
+  #   scan_method: websearch
+  #   scan_query: 'site:jobs.ashbyhq.com/elevenlabs'
+  #   notes: "Voice AI TTS leader."
+  #   enabled: true
 
-  - name: Deepgram
-    careers_url: https://jobs.ashbyhq.com/deepgram
-    scan_method: websearch
-    scan_query: 'site:deepgram.com/careers OR "deepgram" "Solutions" OR "AI Engineer" site:jobs.ashbyhq.com'
-    notes: "STT/TTS APIs."
-    enabled: true
+  # - name: Deepgram
+  #   careers_url: https://jobs.ashbyhq.com/deepgram
+  #   scan_method: websearch
+  #   scan_query: 'site:deepgram.com/careers OR "deepgram" "Solutions" OR "AI Engineer" site:jobs.ashbyhq.com'
+  #   notes: "STT/TTS APIs."
+  #   enabled: true
 
-  - name: Vapi
-    careers_url: https://jobs.ashbyhq.com/vapi
-    scan_method: websearch
-    scan_query: 'site:jobs.ashbyhq.com/vapi'
-    notes: "Voice AI infrastructure."
-    enabled: true
+  # - name: Vapi
+  #   careers_url: https://jobs.ashbyhq.com/vapi
+  #   scan_method: websearch
+  #   scan_query: 'site:jobs.ashbyhq.com/vapi'
+  #   notes: "Voice AI infrastructure."
+  #   enabled: true
 
-  - name: Bland AI
-    careers_url: https://jobs.ashbyhq.com/bland
-    scan_method: websearch
-    scan_query: 'site:jobs.ashbyhq.com/bland'
-    notes: "Voice phone agents. $65M Series B."
-    enabled: true
+  # - name: Bland AI
+  #   careers_url: https://jobs.ashbyhq.com/bland
+  #   scan_method: websearch
+  #   scan_query: 'site:jobs.ashbyhq.com/bland'
+  #   notes: "Voice phone agents. $65M Series B."
+  #   enabled: true
 
   # -- AI-native platforms (FDE/SA teams) --
 
@@ -2405,23 +2211,23 @@ tracked_companies:
   # it actually posts, so nobody enables one expecting a market it does not
   # serve. Left `enabled: false` like every other example.
 
-  - name: Moniepoint
-    careers_url: https://job-boards.greenhouse.io/moniepoint
-    api: https://boards-api.greenhouse.io/v1/boards/moniepoint/jobs
-    notes: "Lagos. Fintech (business banking, payments). Verified 2026-08-17: 120 postings, the largest group in Lagos and Remote-Nigeria; also hires Remote in Bangalore, Poland and Spain."
-    enabled: false
+  # - name: Moniepoint
+  #   careers_url: https://job-boards.greenhouse.io/moniepoint
+  #   api: https://boards-api.greenhouse.io/v1/boards/moniepoint/jobs
+  #   notes: "Lagos. Fintech (business banking, payments). Verified 2026-08-17: 120 postings, the largest group in Lagos and Remote-Nigeria; also hires Remote in Bangalore, Poland and Spain."
+  #   enabled: false
 
-  - name: Jumia
-    careers_url: https://job-boards.greenhouse.io/jumia
-    api: https://boards-api.greenhouse.io/v1/boards/jumia/jobs
-    notes: "Pan-African e-commerce. Verified 2026-08-17: 25 postings across Nigeria, Ghana, Uganda, Egypt and Kenya — the widest continental spread of the three."
-    enabled: false
+  # - name: Jumia
+  #   careers_url: https://job-boards.greenhouse.io/jumia
+  #   api: https://boards-api.greenhouse.io/v1/boards/jumia/jobs
+  #   notes: "Pan-African e-commerce. Verified 2026-08-17: 25 postings across Nigeria, Ghana, Uganda, Egypt and Kenya — the widest continental spread of the three."
+  #   enabled: false
 
-  - name: Andela
-    careers_url: https://jobs.ashbyhq.com/andela
-    api: https://api.ashbyhq.com/posting-api/job-board/andela
-    notes: "African-founded talent marketplace. Verified 2026-08-17: 19 postings, but mostly North America and the UK with a single Kenya role — enable it for the company, not for African coverage."
-    enabled: false
+  # - name: Andela
+  #   careers_url: https://jobs.ashbyhq.com/andela
+  #   api: https://api.ashbyhq.com/posting-api/job-board/andela
+  #   notes: "African-founded talent marketplace. Verified 2026-08-17: 19 postings, but mostly North America and the UK with a single Kenya role — enable it for the company, not for African coverage."
+  #   enabled: false
 
 # ── Job Boards ────────────────────────────────────────────────────────
 # Multi-employer aggregators. Unlike tracked_companies (one entry = one employer),
@@ -2434,92 +2240,92 @@ job_boards:
   # Public API — no auth needed. Division in URL path, campaign=career-ops for tracking.
   # Available divisions: it, engineering, marketing, sales, hr, logistics, finances, other
 
-  - name: SolidJobs IT
-    careers_url: https://solid.jobs/public-api/offers/it?campaign=career-ops
-    provider: solidjobs
-    enabled: true
-    notes: "Polish IT job board — IT division"
+  # - name: SolidJobs IT
+  #   careers_url: https://solid.jobs/public-api/offers/it?campaign=career-ops
+  #   provider: solidjobs
+  #   enabled: true
+  #   notes: "Polish IT job board — IT division"
 
-  - name: SolidJobs Engineering
-    careers_url: https://solid.jobs/public-api/offers/engineering?campaign=career-ops
-    provider: solidjobs
-    enabled: false
-    notes: "Polish job board — Engineering & Production division"
+  # - name: SolidJobs Engineering
+  #   careers_url: https://solid.jobs/public-api/offers/engineering?campaign=career-ops
+  #   provider: solidjobs
+  #   enabled: false
+  #   notes: "Polish job board — Engineering & Production division"
 
-  - name: SolidJobs Marketing
-    careers_url: https://solid.jobs/public-api/offers/marketing?campaign=career-ops
-    provider: solidjobs
-    enabled: false
-    notes: "Polish job board — Marketing division"
+  # - name: SolidJobs Marketing
+  #   careers_url: https://solid.jobs/public-api/offers/marketing?campaign=career-ops
+  #   provider: solidjobs
+  #   enabled: false
+  #   notes: "Polish job board — Marketing division"
 
-  - name: SolidJobs Sales
-    careers_url: https://solid.jobs/public-api/offers/sales?campaign=career-ops
-    provider: solidjobs
-    enabled: false
-    notes: "Polish job board — Sales division"
+  # - name: SolidJobs Sales
+  #   careers_url: https://solid.jobs/public-api/offers/sales?campaign=career-ops
+  #   provider: solidjobs
+  #   enabled: false
+  #   notes: "Polish job board — Sales division"
 
-  - name: SolidJobs HR
-    careers_url: https://solid.jobs/public-api/offers/hr?campaign=career-ops
-    provider: solidjobs
-    enabled: false
-    notes: "Polish job board — HR division"
+  # - name: SolidJobs HR
+  #   careers_url: https://solid.jobs/public-api/offers/hr?campaign=career-ops
+  #   provider: solidjobs
+  #   enabled: false
+  #   notes: "Polish job board — HR division"
 
-  - name: SolidJobs Logistics
-    careers_url: https://solid.jobs/public-api/offers/logistics?campaign=career-ops
-    provider: solidjobs
-    enabled: false
-    notes: "Polish job board — Logistics division"
+  # - name: SolidJobs Logistics
+  #   careers_url: https://solid.jobs/public-api/offers/logistics?campaign=career-ops
+  #   provider: solidjobs
+  #   enabled: false
+  #   notes: "Polish job board — Logistics division"
 
-  - name: SolidJobs Finances
-    careers_url: https://solid.jobs/public-api/offers/finances?campaign=career-ops
-    provider: solidjobs
-    enabled: false
-    notes: "Polish job board — Finances division"
+  # - name: SolidJobs Finances
+  #   careers_url: https://solid.jobs/public-api/offers/finances?campaign=career-ops
+  #   provider: solidjobs
+  #   enabled: false
+  #   notes: "Polish job board — Finances division"
 
-  - name: SolidJobs Other
-    careers_url: https://solid.jobs/public-api/offers/other?campaign=career-ops
-    provider: solidjobs
-    enabled: false
-    notes: "Polish job board — Other specialists division"
+  # - name: SolidJobs Other
+  #   careers_url: https://solid.jobs/public-api/offers/other?campaign=career-ops
+  #   provider: solidjobs
+  #   enabled: false
+  #   notes: "Polish job board — Other specialists division"
 
   # ── JustJoin.it / NoFluffJobs (Polish tech market) ────────────────────────
   # Public job-board APIs. Disabled by default; enable and rely on the global
   # title_filter/location_filter/salary_filter above for your target profile.
 
-  - name: JustJoin.it
-    careers_url: https://justjoin.it/job-offers/all-locations
-    provider: justjoin
-    enabled: false
-    notes: "Polish tech job board — newest public offers"
+  # - name: JustJoin.it
+  #   careers_url: https://justjoin.it/job-offers/all-locations
+  #   provider: justjoin
+  #   enabled: false
+  #   notes: "Polish tech job board — newest public offers"
 
-  - name: NoFluffJobs
-    careers_url: https://nofluffjobs.com/pl
-    provider: nofluffjobs
-    enabled: false
-    notes: "Polish tech job board — newest public postings"
+  # - name: NoFluffJobs
+  #   careers_url: https://nofluffjobs.com/pl
+  #   provider: nofluffjobs
+  #   enabled: false
+  #   notes: "Polish tech job board — newest public postings"
 
-  # -- Indonesia job boards (provider: jobstreet / glints) --
+  # # -- Indonesia job boards (provider: jobstreet / glints) --
 
-  - name: Jobstreet Indonesia
-    provider: jobstreet
-    api: https://id.jobstreet.com/api/jobsearch/v5/search
-    siteKey: ID-Main
-    searchKeywords: "data scientist"
-    searchLocation: "Jakarta"
-    pageSize: 30
-    maxPages: 3
-    enabled: false
-    notes: "Indonesia's largest job board (SEEK group). Uses SEEK v5 JobSearch API — zero tokens."
+  # - name: Jobstreet Indonesia
+  #   provider: jobstreet
+  #   api: https://id.jobstreet.com/api/jobsearch/v5/search
+  #   siteKey: ID-Main
+  #   searchKeywords: "data scientist"
+  #   searchLocation: "Jakarta"
+  #   pageSize: 30
+  #   maxPages: 3
+  #   enabled: false
+  #   notes: "Indonesia's largest job board (SEEK group). Uses SEEK v5 JobSearch API — zero tokens."
 
-  - name: Glints Indonesia
-    provider: glints
-    api: https://glints.com/api/v2-alc/graphql       # searchJobsV3 endpoint
-    searchKeywords: "data scientist"
-    countryCode: ID
-    pageSize: 30
-    maxPages: 3
-    enabled: false
-    notes: "SEA job platform covering ID/SG/MY/VN. Uses searchJobsV3 GraphQL endpoint (v2-alc). WAF blocks non-browser requests — works best from Playwright context."
+  # - name: Glints Indonesia
+  #   provider: glints
+  #   api: https://glints.com/api/v2-alc/graphql       # searchJobsV3 endpoint
+  #   searchKeywords: "data scientist"
+  #   countryCode: ID
+  #   pageSize: 30
+  #   maxPages: 3
+  #   enabled: false
+  #   notes: "SEA job platform covering ID/SG/MY/VN. Uses searchJobsV3 GraphQL endpoint (v2-alc). WAF blocks non-browser requests — works best from Playwright context."
 
   # ── HigherEdJobs (university / higher-ed RSS) ────────────────────────
   # Public no-auth RSS category feed. cat_id selects the HigherEdJobs
