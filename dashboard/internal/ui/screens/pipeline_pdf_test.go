@@ -64,7 +64,7 @@ func TestPDFKeyFlashesWhenNoPDFExists(t *testing.T) {
 
 func TestPDFKeyOpensSingleMatchDirectly(t *testing.T) {
 	root := t.TempDir()
-	writePDFFixture(t, root, "output/cv-jane-doe-globex-2026-06-05.pdf")
+	writePDFFixture(t, root, "output/resume-2026-06-05-report001-globex.pdf")
 	apps := []model.CareerApplication{
 		{Company: "Globex", Role: "Engineer", Status: "Evaluated", Score: 4.0},
 	}
@@ -82,7 +82,7 @@ func TestPDFKeyOpensSingleMatchDirectly(t *testing.T) {
 	if !ok {
 		t.Fatalf("expected PipelineOpenPDFMsg, got %T", cmd())
 	}
-	if !strings.HasSuffix(msg.Path, "cv-jane-doe-globex-2026-06-05.pdf") {
+	if !strings.HasSuffix(msg.Path, "resume-2026-06-05-report001-globex.pdf") {
 		t.Fatalf("unexpected PDF path %q", msg.Path)
 	}
 }
@@ -90,8 +90,8 @@ func TestPDFKeyOpensSingleMatchDirectly(t *testing.T) {
 func TestPDFKeyOpensNewestForMultipleMatches(t *testing.T) {
 	root := t.TempDir()
 	// Write two PDFs for the same company with distinct dates so ordering is predictable.
-	writePDFFixture(t, root, "output/cv-jane-doe-anthropic-2026-06-05.pdf")
-	writePDFFixture(t, root, "output/cv-jane-doe-anthropic-2026-06-10.pdf")
+	writePDFFixture(t, root, "output/resume-2026-06-05-report099-anthropic.pdf")
+	writePDFFixture(t, root, "output/resume-2026-06-10-report099-anthropic.pdf")
 	apps := []model.CareerApplication{
 		{Company: "Anthropic", Role: "Staff UI Engineer", Status: "Evaluated", Score: 4.6},
 	}
@@ -110,14 +110,14 @@ func TestPDFKeyOpensNewestForMultipleMatches(t *testing.T) {
 	if !ok {
 		t.Fatalf("expected PipelineOpenPDFMsg, got %T", cmd())
 	}
-	if !strings.HasSuffix(msg.Path, "cv-jane-doe-anthropic-2026-06-10.pdf") {
+	if !strings.HasSuffix(msg.Path, "resume-2026-06-10-report099-anthropic.pdf") {
 		t.Fatalf("expected newest PDF to be opened, got %q", msg.Path)
 	}
 }
 
 func TestPDFKeyDoesNotOpenCompanyPrefixMatch(t *testing.T) {
 	root := t.TempDir()
-	writePDFFixture(t, root, "output/cv-jane-doe-metabase-2026-06-05.pdf")
+	writePDFFixture(t, root, "output/resume-2026-06-05-report104-metabase.pdf")
 	apps := []model.CareerApplication{
 		{Company: "Meta", Role: "Engineer", Status: "Evaluated", Score: 4.0},
 	}
@@ -152,8 +152,8 @@ func TestRegenerateKeyFlashesWithoutManifestEntry(t *testing.T) {
 
 func TestRegenerateKeyDoesNotUseCompanyPrefixMatch(t *testing.T) {
 	root := t.TempDir()
-	pdfPath := "output/cv-jane-doe-metabase-2026-06-05.pdf"
-	htmlPath := "output/cv-jane-doe-metabase-2026-06-05.html"
+	pdfPath := "output/resume-2026-06-05-report104-metabase.pdf"
+	htmlPath := "output/resume-2026-06-05-report104-metabase.html"
 	writePDFFixture(t, root, pdfPath)
 	writePDFFixture(t, root, htmlPath)
 	writePDFFixture(t, root, "data/pdf-index.tsv")
@@ -178,9 +178,9 @@ func TestRegenerateKeyDoesNotUseCompanyPrefixMatch(t *testing.T) {
 
 func TestRegenerateKeyEmitsGenerateMsgFromManifest(t *testing.T) {
 	root := t.TempDir()
-	writePDFFixture(t, root, "output/cv-jane-doe-globex.html")
+	writePDFFixture(t, root, "output/resume-2026-06-05-report001-globex.html")
 	writePDFFixture(t, root, "data/pdf-index.tsv") // placeholder, overwritten below
-	manifest := "001\toutput/cv-jane-doe-globex-2026-06-05.pdf\toutput/cv-jane-doe-globex.html\tletter\t2026-06-05\n"
+	manifest := "001\toutput/resume-2026-06-05-report001-globex.pdf\toutput/resume-2026-06-05-report001-globex.html\tletter\t2026-06-05\n"
 	if err := os.WriteFile(filepath.Join(root, "data", "pdf-index.tsv"), []byte(manifest), 0o644); err != nil {
 		t.Fatalf("write manifest: %v", err)
 	}
@@ -201,7 +201,7 @@ func TestRegenerateKeyEmitsGenerateMsgFromManifest(t *testing.T) {
 	if !ok {
 		t.Fatalf("expected PipelineGeneratePDFMsg, got %T", cmd())
 	}
-	if msg.ReportNumber != "001" || msg.HTMLPath != "output/cv-jane-doe-globex.html" || msg.Format != "letter" {
+	if msg.ReportNumber != "001" || msg.HTMLPath != "output/resume-2026-06-05-report001-globex.html" || msg.Format != "letter" {
 		t.Fatalf("unexpected generate request: %+v", msg)
 	}
 

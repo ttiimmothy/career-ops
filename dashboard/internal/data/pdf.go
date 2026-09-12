@@ -161,9 +161,10 @@ func LoadPDFManifest(careerOpsPath string) PDFManifest {
 	return manifest
 }
 
-// rePDFDate extracts the trailing YYYY-MM-DD stamp from generated CV
-// filenames (cv-{candidate}-{slug}-{date}.pdf).
-var rePDFDate = regexp.MustCompile(`(\d{4}-\d{2}-\d{2})\.pdf$`)
+// rePDFDate extracts the YYYY-MM-DD stamp from generated resume filenames
+// (resume-{date}-report{NNN}-{slug}.pdf), where the date is the leading
+// segment immediately after the resume- prefix.
+var rePDFDate = regexp.MustCompile(`resume-(\d{4}-\d{2}-\d{2})-`)
 
 // ResolvePDFs returns candidate PDF paths (relative to careerOpsPath) for an
 // application, best match first.
@@ -171,7 +172,7 @@ var rePDFDate = regexp.MustCompile(`(\d{4}-\d{2}-\d{2})\.pdf$`)
 // Precedence:
 //  1. Manifest entry for the application's report number, when the file
 //     still exists. This is exact — generate-pdf.mjs recorded the linkage.
-//  2. Filename match: output/cv-*.pdf whose name contains the kebab-cased
+//  2. Filename match: output/resume-*.pdf whose name contains the kebab-cased
 //     company at hyphen boundaries. This covers every PDF generated before
 //     the manifest existed without matching a longer company's slug.
 //     Multiple matches are all returned (newest first) so the caller can
@@ -189,7 +190,7 @@ func ResolvePDFs(careerOpsPath string, app model.CareerApplication, manifest PDF
 		return nil
 	}
 
-	globbed, err := filepath.Glob(filepath.Join(careerOpsPath, "output", "cv-*.pdf"))
+	globbed, err := filepath.Glob(filepath.Join(careerOpsPath, "output", "resume-*.pdf"))
 	if err != nil {
 		return nil
 	}
@@ -210,10 +211,30 @@ func ResolvePDFs(careerOpsPath string, app model.CareerApplication, manifest PDF
 
 // matchesCompanySlug reports whether a generated CV filename contains the
 // company as a complete hyphen-delimited segment. This still permits role
-// variants (cv-…-anthropic-staff-ui-….pdf matches "anthropic") without letting
+// variants (resume-…-anthropic-staff-ui-….pdf matches "anthropic") without letting
 // a company prefix match a different company ("meta" must not match "metabase").
 func matchesCompanySlug(base, slug string) bool {
-	return strings.Contains(base, "-"+slug+"-")
+	// The company slug is a hyphen-delimited segment that may be mid-filename
+	// (followed by a hyphen) or terminal (company ends the stem before the
+	// .pdf/.html extension). Match both, and require a hyphen before the slug so
+	// a company prefix cannot match a longer name ("meta" must not match
+	// "metabase").
+	needle := "-" + slug
+	i := strings.Index(base, needle)
+	if i == -1 {
+		return false
+	}
+	end := i + len(needle)
+	if end == len(base) {
+		return true // slug is at the end (no extension yet handled by caller lowercasing base)
+	}
+	// A valid delimiter follows: a hyphen (mid-filename variant) or a dot
+	// (the extension, e.g. ".pdf"/".html").
+	switch base[end] {
+	case '-', '.':
+		return true
+	}
+	return false
 }
 
 // sortPDFsNewestFirst orders candidate paths by the date stamp embedded in
@@ -261,7 +282,7 @@ func kebabCase(s string) string {
 	return strings.TrimRight(b.String(), "-")
 }
 
-// ResolveHTML returns the newest output/cv-*{companySlug}*.html for app and
+// ResolveHTML returns the newest output/resume-*{companySlug}*.html for app and
 // a companion PDF path derived from it (same base, .pdf extension). Returns
 // ("","") when no matching HTML file is found. Used by the D handler to allow
 // PDF generation for entries that have a tailored CV HTML but no prior PDF.
@@ -270,7 +291,7 @@ func ResolveHTML(careerOpsPath string, app model.CareerApplication) (htmlPath, p
 	if slug == "" {
 		return "", ""
 	}
-	globbed, err := filepath.Glob(filepath.Join(careerOpsPath, "output", "cv-*.html"))
+	globbed, err := filepath.Glob(filepath.Join(careerOpsPath, "output", "resume-*.html"))
 	if err != nil {
 		return "", ""
 	}
