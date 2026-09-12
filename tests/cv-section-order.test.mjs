@@ -658,8 +658,12 @@ try {
   const shippedOrder = renderedTitles(rendered);
   const allKeys = ['summary', 'competencies', 'experience', 'projects', 'education', 'certifications', 'awards', 'interests', 'skills'];
   const reversed = renderedTitles(reorderCvSections(rendered, [...allKeys].reverse()));
-  if (shippedOrder.length === 9 && JSON.stringify(reversed) === JSON.stringify([...shippedOrder].reverse())) {
-    pass('every one of the shipped template\'s nine sections is movable (full reversal)');
+  // The competencies section was removed from the shipped template (#3500), so
+  // the base template renders eight section titles, not nine. `competencies` is
+  // still a recognized key (CV_SECTION_KEYS) and remains a movable section in
+  // template packs that still ship it; only the base template's own block is gone.
+  if (shippedOrder.length === 8 && JSON.stringify(reversed) === JSON.stringify([...shippedOrder].reverse())) {
+    pass('every one of the shipped template\'s eight sections is movable (full reversal)');
   } else {
     fail(`shipped template reversal: before=${JSON.stringify(shippedOrder)} after=${JSON.stringify(reversed)}`);
   }
