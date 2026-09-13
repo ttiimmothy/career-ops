@@ -287,7 +287,7 @@ cover_letter:
 # `/career-ops pdf {company-slug}`. Fractional thresholds work (e.g. 3.5 —
 # half-point scores like 3.5/5 occur in evaluations). Set it to 0 to
 # generate a PDF for every offer.
-# auto_pdf_score_threshold: 4.0
+# auto_pdf_score_threshold: 0.5
 
 # ── Two-pass triage gate ────────────────────────────────────────────────────
 #
@@ -298,15 +298,15 @@ cover_letter:
 # roles that pass. On a mixed batch this cuts total tokens by roughly half.
 #
 #   triage_threshold  — minimum triage score (out of 5) to proceed to full
-#                       evaluation. Roles at 3.0–(threshold) are MARGINAL and
-#                       shown to you; below 3.0 they are filtered silently.
+#                       evaluation. Roles at 0–(threshold) are MARGINAL and
+#                       shown to you; below 0 they are filtered silently.
 #                       Default (key absent): 3.5.
 #   triage_min_urls   — batches with fewer surviving URLs than this skip triage
 #                       and go straight to full evaluation (triage overhead
 #                       isn't worth it on a handful of roles). Default: 5.
 #
 # pipeline:
-#   triage_threshold: 3.5
+#   triage_threshold: 0.5
 #   triage_min_urls: 5
 
 # ── Re-apply Cooldown Windows ──────────────────────────────────────────────

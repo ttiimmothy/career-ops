@@ -65,7 +65,7 @@ narrative:
   #   password: "demo-2026"
 
 compensation:
-  target_range: "$90K-130K"     # Your target total comp
+  target_range: "$80K-300K"     # Your target total comp
   currency: "CAD"
   minimum: "$80K"               # Walk-away number
   location_flexibility: "Hybrid / Remote in Toronto area"
@@ -125,6 +125,10 @@ spend_tier: standard
 
 cv:
   output_format: "html" # "html" (default) or "latex"
+  # Section order for the rendered CV (generate-pdf.mjs reorderCvSections). List
+  # the sections you want to reorder in the relative order they should render;
+  # unlisted sections keep their template slots. Put Education before Projects:
+  sections: [education, projects]
   # (Optional) Canva resume design ID for visual CV generation via /career-ops pdf.
   # Find it in your Canva design URL: https://www.canva.com/design/DAxxxxxxx/...
   # The ID starts with "D" and is 11 characters long.
@@ -136,6 +140,25 @@ cv:
   # (e.g. "use the modern template").
   # template: modern
   # For a restrained Chinese technical CV, use: template: zh-minimal
+  #
+  # ── PDF render controls (read by the pdf mode / auto-pipeline Step 3) ──
+  # These map one-to-one onto generate-pdf.mjs flags. Leave any of them out
+  # (or commented) to keep the existing behavior for that setting.
+  #
+  # max_pages controls the CV length (generate-pdf.mjs --max-pages=N). Default
+  # when absent: 2 pages (warning-only overflow). Set 1 for a strict one-page CV.
+  max_pages: 1
+  #
+  # cleanup_html deletes the intermediate HTML after the PDF renders
+  # (--cleanup-html). Off (true omitted / false) keeps the HTML, which the
+  # dashboard's `D` hotkey regenerates from. Set true only if you never
+  # regenerate from source HTML.
+  cleanup_html: false
+  #
+  # format overrides the paper size that would otherwise be auto-detected from
+  # the company location (US/Canada → letter, else a4). Explicitly set only to
+  # override the detection; leave unset to keep auto-detection.
+  format: a4   # or: a4
 
 # ── Culture Screen ───────────────────────────────────────────────────────────
 #
@@ -165,7 +188,7 @@ cover_letter:
   # Your notice period in calendar days. Surfaced as a prompt default when the
   # JD requests an immediate start. The user confirms the actual value before it
   # appears in the letter.
-  notice_period_days: 30
+  notice_period_days: 7
   # Which cover-letter template to use by default. Kebab-case name of a file in
   # templates/ named cover-letter-template.<name>.html. Unset -> built-in
   # templates/cover-letter-template.html.
@@ -240,16 +263,19 @@ cover_letter:
 # launch + HTML render), and most offers in a scan score 2.x/3.x and never
 # become an actual application — so the gate avoids wasted renders.
 #
-# Default (key absent OR commented out): 3.0 — the original gate of
-# `/career-ops pipeline`. Both evaluation paths apply the same default, so
-# a batch run and an interactive run treat the same offer identically.
+# Default (key absent OR commented out): 0.5 — a floor just above zero, so
+# the PDF is generated for any real offer and only skipped on a clearly
+# non-viable posting (e.g. a SKIP / hard-mismatch role). Both evaluation paths
+# (`/career-ops pipeline` and `/career-ops <JD>` auto-pipeline) apply the same
+# default, so a batch run and an interactive run treat the same offer
+# identically.
 #
 # Raise it (e.g. 4.0) to auto-generate PDFs only for stronger matches and
 # leave the rest report-only — those can still be produced on demand via
-# `/career-ops pdf {company-slug}`. Fractional thresholds work (e.g. 3.5 —
-# half-point scores like 3.5/5 occur in evaluations). Set it to 0 to
+# `/career-ops pdf {company-slug}`. Fractional thresholds work (e.g. 0.5 —
+# half-point scores like 0.5/5 occur in evaluations). Set it to 0 to
 # generate a PDF for every offer.
-# auto_pdf_score_threshold: 4.0
+auto_pdf_score_threshold: 0
 
 # ── Two-pass triage gate ────────────────────────────────────────────────────
 #
@@ -260,15 +286,15 @@ cover_letter:
 # roles that pass. On a mixed batch this cuts total tokens by roughly half.
 #
 #   triage_threshold  — minimum triage score (out of 5) to proceed to full
-#                       evaluation. Roles at 3.0–(threshold) are MARGINAL and
-#                       shown to you; below 3.0 they are filtered silently.
-#                       Default (key absent): 3.5.
+#                       evaluation. Roles at 00–(threshold) are MARGINAL and
+#                       shown to you; below 0 they are filtered silently.
+#                       Default (key absent): 0.5.
 #   triage_min_urls   — batches with fewer surviving URLs than this skip triage
 #                       and go straight to full evaluation (triage overhead
 #                       isn't worth it on a handful of roles). Default: 5.
 #
 # pipeline:
-#   triage_threshold: 3.5
+#   triage_threshold: 0.5
 #   triage_min_urls: 5
 
 # ── Re-apply Cooldown Windows ──────────────────────────────────────────────
