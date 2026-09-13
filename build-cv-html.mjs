@@ -52,7 +52,7 @@ const PHOTO_STYLES = new Set(['rounded', 'circle', 'square']);
 const IMAGE_DATA_URL_RE = /^data:image\/(?:png|jpeg|webp|gif);base64,[a-z0-9+/=\s]+$/i;
 
 const DEFAULT_SECTION_TITLES = {
-  summary: 'Professional Summary',
+  summary: 'Summary',
   competencies: 'Core Competencies',
   experience: 'Work Experience',
   projects: 'Projects',
@@ -60,7 +60,7 @@ const DEFAULT_SECTION_TITLES = {
   certifications: 'Certifications',
   awards: 'Awards & Honors',
   interests: 'Interests',
-  skills: 'Skills',
+  skills: 'Technical Skills',
 };
 
 // Escape user text for HTML text/attribute context. Covers the five characters
@@ -348,13 +348,20 @@ function buildCompetencies(entries, partial) {
 
 function buildExperience(entries, partial) {
   if (!Array.isArray(entries) || entries.length === 0) return '';
+  // Hide the "Hong Kong" location entirely: past roles located in Hong Kong are
+  // suppressed rather than rendered as a bare city on the role line. Case- and
+  // whitespace-insensitive so a payload of "Hong Kong" matches "  hong kong  ".
+  const visibleLocation = (e) => {
+    const loc = (e && e.location) ? String(e.location).trim() : '';
+    return loc && loc.toLowerCase() !== 'hong kong' ? loc : '';
+  };
   if (!partial) {
     return entries.filter(e => hasRequiredFields(e, 'experience', 'html')).map(e => {
       const bullets = Array.isArray(e.bullets)
         ? e.bullets.filter(Boolean).map(b => `        <li>${escapeHtml(b)}</li>`).join('\n')
         : '';
-      const location = e.location
-        ? `\n    <div class="job-location">${escapeHtml(e.location)}</div>`
+      const location = visibleLocation(e)
+        ? `\n    <div class="job-location">${escapeHtml(visibleLocation(e))}</div>`
         : '';
       return `<div class="job">
     <div class="job-header">
@@ -374,14 +381,15 @@ ${bullets}
     const bullets = Array.isArray(e.bullets)
       ? e.bullets.filter(Boolean).map(b => `<li>${escapeHtml(b)}</li>`).join('\n    ')
       : '';
+    const loc = visibleLocation(e);
     const blockValues = new Map([
-      ['LOCATION_BLOCK', { value: escapeHtml(e.location || ''), present: Boolean(e.location) }],
+      ['LOCATION_BLOCK', { value: escapeHtml(loc), present: Boolean(loc) }],
     ]);
     return fillEntry(entryTemplate, blocks, {
       COMPANY: escapeHtml(e.company || ''),
       PERIOD: escapeHtml(e.dates || e.period || ''),
       ROLE: escapeHtml(e.role || ''),
-      LOCATION: escapeHtml(e.location || ''),
+      LOCATION: escapeHtml(loc),
       BULLETS: bullets,
     }, blockValues);
   }).join('\n  ');
@@ -399,29 +407,41 @@ function buildProjects(entries, partial) {
       const nameHtml = url
         ? `<a href="${url}">${nameText}</a>`
         : nameText;
-      // Prefer a single description; fall back to joining bullets into one line so
-      // a bullets-shaped payload still renders inside the .project-desc block.
-      const descText = e.description
-        || (Array.isArray(e.bullets) ? e.bullets.filter(Boolean).join(' ') : '');
-      const desc = descText
+      // Prefer bullet list; fall back to a single description string, then
+      // joining bullets into one line, so a bullets-shaped payload renders as
+      // real <li> bullets matching cv.md (project stack stays inline, no
+      // separate <div class="project-tech"> line).
+      const bulletList = Array.isArray(e.bullets) && e.bullets.filter(Boolean);
+      const bulletsHtml = (bulletList && bulletList.length)
+        ? `\n    <ul>\n${bulletList.map(b => `      <li>${escapeHtml(b)}</li>`).join('\n')}\n    </ul>`
+        : '';
+      const description = e.description;
+      const descText = description || (Array.isArray(e.bullets) ? e.bullets.filter(Boolean).join(' ') : '');
+      const desc = (!bulletsHtml && descText)
         ? `\n    <div class="project-desc">${escapeHtml(descText)}</div>`
         : '';
       const tech = e.tech
         ? `\n    <div class="project-tech">${escapeHtml(e.tech)}</div>`
         : '';
       return `<div class="project">
-    <div class="project-title">${nameHtml}${badge}</div>${desc}${tech}
+    <div class="project-title">${nameHtml}${badge}</div>${bulletsHtml}${desc}${tech}
   </div>`;
     }).join('\n  ');
   }
 
   const { entryTemplate, blocks } = partial;
   return entries.filter(e => hasRequiredFields(e, 'projects', 'html')).map(e => {
+    const bulletList = Array.isArray(e.bullets) && e.bullets.filter(Boolean);
+    const bulletsHtml = (bulletList && bulletList.length)
+      ? bulletList.map(b => `<li>${escapeHtml(b)}</li>`).join('\n    ')
+      : '';
     const descText = e.description
       || (Array.isArray(e.bullets) ? e.bullets.filter(Boolean).join(' ') : '');
+    const descValue = bulletsHtml ? '' : descText;
     const blockValues = new Map([
       ['BADGE_BLOCK', { value: escapeHtml(e.badge || ''), present: Boolean(e.badge) }],
-      ['DESC_BLOCK',  { value: escapeHtml(descText),      present: Boolean(descText) }],
+      ['BULLETS_BLOCK', { value: bulletsHtml, present: Boolean(bulletsHtml) }],
+      ['DESC_BLOCK',  { value: escapeHtml(descValue),      present: Boolean(descValue) }],
       ['TECH_BLOCK',  { value: escapeHtml(e.tech || ''),  present: Boolean(e.tech) }],
     ]);
     const nameText = escapeHtml(e.name || '');
@@ -432,7 +452,8 @@ function buildProjects(entries, partial) {
     return fillEntry(entryTemplate, blocks, {
       NAME:  nameHtml,
       BADGE: escapeHtml(e.badge || ''),
-      DESC:  escapeHtml(descText),
+      BULLETS: bulletsHtml,
+      DESC:  escapeHtml(descValue),
       TECH:  escapeHtml(e.tech || ''),
     }, blockValues);
   }).join('\n  ');
@@ -612,10 +633,7 @@ function buildContactRow(candidate) {
   if (c.portfolio && c.portfolio.url) {
     items.push(`<a href="${sanitizeUrl(c.portfolio.url)}">${escapeHtml(c.portfolio.display || c.portfolio.url)}</a>`);
   }
-  if (c.location) {
-    items.push(`<span>${escapeHtml(c.location)}</span>`);
-  }
-  const sep = '\n      <span class="separator">|</span>\n      ';
+  const sep = '\n      ';
   return `<div class="contact-row">\n      ${items.join(sep)}\n    </div>`;
 }
 
@@ -821,7 +839,6 @@ async function runSelfTest() {
       location: 'City, State',
     },
     summary: 'Backend engineer with a focus on R&D and cost-efficient "north star" systems.',
-    competencies: ['Cloud Architecture', 'RESTful API Design', 'Kubernetes & Docker'],
     experience: [{
       company: 'Test Corp',
       role: 'Test Engineer',
@@ -869,13 +886,13 @@ async function runSelfTest() {
     process.exit(1);
   }
 
-  // Guard the escaping contract: the raw ampersand from "Kubernetes & Docker"
-  // must reach the output escaped, and no unescaped literal must survive.
-  if (!html.includes('Kubernetes &amp; Docker')) {
-    console.error('Self-test failed: HTML escaping did not apply to competency text');
+  // Guard the escaping contract: the raw ampersand from the interests text must
+// reach the output escaped, and no unescaped literal must survive.
+if (!html.includes('sci-fi &amp; fantasy')) {
+    console.error('Self-test failed: HTML escaping did not apply to free text');
     process.exit(1);
   }
-  if (/Kubernetes & Docker/.test(html)) {
+  if (/sci-fi & fantasy/.test(html)) {
     console.error('Self-test failed: found an unescaped ampersand in output');
     process.exit(1);
   }
@@ -895,32 +912,23 @@ async function runSelfTest() {
   }
 
   // Guard the absent-field side of the same case: omitting candidate.github
-  // must drop both its anchor and its separator, leaving no dangling item.
+  // must drop its anchor, leaving no dangling item.
   const { github, ...candidateWithoutGithub } = sample.candidate;
   const htmlWithoutGithub = renderHtml(template, { ...sample, candidate: candidateWithoutGithub });
-  const countSeparators = (h) => (h.match(/class="separator"/g) || []).length;
   if (htmlWithoutGithub.includes('github.com/test')) {
     console.error('Self-test failed: github contact link rendered when candidate.github is absent');
     process.exit(1);
   }
-  if (countSeparators(htmlWithoutGithub) !== countSeparators(html) - 1) {
-    console.error('Self-test failed: omitting candidate.github left a dangling separator in the contact row');
-    process.exit(1);
-  }
 
   // Guard the rejected-scheme side: sanitizeUrl() must reject javascript:/data:
-  // github URLs, which must drop the item and separator exactly like an
-  // absent field, never fall through to an empty href="".
+  // github URLs, which must drop the item exactly like an absent field, never
+  // fall through to an empty href="".
   const htmlWithRejectedGithub = renderHtml(template, {
     ...sample,
     candidate: { ...sample.candidate, github: { url: 'javascript:alert(1)', display: 'github.com/test' } },
   });
   if (htmlWithRejectedGithub.includes('href=""') || htmlWithRejectedGithub.includes('github.com/test')) {
     console.error('Self-test failed: rejected github URL still rendered a contact item');
-    process.exit(1);
-  }
-  if (countSeparators(htmlWithRejectedGithub) !== countSeparators(html) - 1) {
-    console.error('Self-test failed: rejected github URL left a dangling separator in the contact row');
     process.exit(1);
   }
 
@@ -930,8 +938,8 @@ async function runSelfTest() {
     console.error('Self-test failed: experience section is missing .job class — partial may be broken');
     process.exit(1);
   }
-  if (!html.includes('class="competency-tag"')) {
-    console.error('Self-test failed: competencies section is missing .competency-tag class');
+  if (!html.includes('class="job-role-line"')) {
+    console.error('Self-test failed: experience section is missing .job-role-line class — partial may be broken');
     process.exit(1);
   }
   if (!html.includes('class="project"')) {

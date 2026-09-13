@@ -29,6 +29,11 @@
  * warns with trimming guidance by default. --strict-pages turns that warning
  * into a hard rejection without publishing the render as successful.
  *
+ * --cleanup-html deletes the input HTML file after the PDF renders. The HTML
+ * is normally kept as the source the dashboard's `D` hotkey regenerates from,
+ * so this flag drops that ability for the row: the pdf-index.tsv entry is
+ * written with a blank html column instead of a dangling path. Off by default.
+ *
  * Requires: @playwright/test (or playwright) installed.
  * Uses Chromium headless to render the HTML and produce a clean, ATS-parseable PDF.
  */
@@ -1212,6 +1217,7 @@ async function generatePDF() {
   // Parse arguments
   let inputPath, outputPath, format = 'a4', reportNum = '', allowReorder = false;
   let maxPages = 2, maxPagesInput = '2', strictPages = false, batchManifestPath = null;
+  let cleanupHtml = false;
 
   for (const arg of args) {
     if (arg.startsWith('--format=')) {
@@ -1229,6 +1235,8 @@ async function generatePDF() {
       strictPages = true;
     } else if (arg === '--skip-fact-check') {
       skipFactCheck = true;
+    } else if (arg === '--cleanup-html') {
+      cleanupHtml = true;
     } else if (!inputPath) {
       inputPath = arg;
     } else if (!outputPath) {
@@ -1258,7 +1266,7 @@ async function generatePDF() {
   }
 
   if (!inputPath || !outputPath) {
-    console.error('Usage: node generate-pdf.mjs <input.html> <output.pdf> [--format=letter|a4] [--report=NNN] [--allow-reorder] [--max-pages=N] [--strict-pages]');
+    console.error('Usage: node generate-pdf.mjs <input.html> <output.pdf> [--format=letter|a4] [--report=NNN] [--allow-reorder] [--max-pages=N] [--strict-pages] [--skip-fact-check] [--cleanup-html]');
     console.error('   or: node generate-pdf.mjs --batch=<manifest.json> [--format=letter|a4] [--allow-reorder] [--max-pages=N] [--strict-pages]');
     console.error('');
     console.error('Batch mode renders every document in the JSON manifest (an array of');
@@ -1372,6 +1380,7 @@ async function generatePDF() {
     baseDir: dirname(inputPath),
     reportNum,
     inputPath,
+    cleanupHtml,
     maxPages,
     strictPages,
     styleTokens: readStyleTokens(resolve(workspaceRoot, 'config', 'profile.yml')),
@@ -1669,6 +1678,7 @@ export async function renderHtmlToPdf(html, outputPath, opts = {}) {
  *   baseDir?: string,
  *   reportNum?: string,
  *   inputPath?: string,
+ *   cleanupHtml?: boolean,
  *   maxPages?: number,
  *   strictPages?: boolean,
  *   styleTokens?: object
@@ -1690,6 +1700,7 @@ async function renderInPage(browser, html, outputPath, opts = {}) {
   ) ? requestedBaseDir : resolve(outputRoot);
   const reportNum = opts.reportNum || '';
   const inputPath = opts.inputPath || '';
+  const cleanupHtml = opts.cleanupHtml === true;
 
   // Reject an escaping destination before creating directories, launching
   // Chromium, or writing any renderer temporary files (#2844).
@@ -1782,11 +1793,25 @@ async function renderInPage(browser, html, outputPath, opts = {}) {
     console.log(`📦 Size: ${(pdfBuffer.length / 1024).toFixed(1)} KB`);
 
     try {
-      updatePDFManifest(reportNum, outputPath, inputPath, format);
+      // When --cleanup-html is set, the input HTML is about to be deleted, so
+      // record a blank html column rather than a dangling path the dashboard's
+      // `D` regenerate hotkey could not resolve.
+      updatePDFManifest(reportNum, outputPath, cleanupHtml ? '' : inputPath, format);
       console.log(`🔗 Manifest: data/pdf-index.tsv updated${reportNum ? ` (report ${reportNum})` : ' (no --report given)'}`);
     } catch (err) {
       // The PDF itself succeeded — never fail the run over manifest bookkeeping.
       console.error(`⚠️  Manifest update failed: ${err.message}`);
+    }
+
+    if (cleanupHtml && inputPath) {
+      try {
+        await unlink(inputPath);
+        console.log(`🧹 Removed input HTML (--cleanup-html): ${inputPath}`);
+      } catch (err) {
+        if (err?.code !== 'ENOENT') {
+          console.warn(`⚠️  Input HTML cleanup failed: ${err.message}`);
+        }
+      }
     }
 
     return { outputPath, pageCount, size: pdfBuffer.length };
