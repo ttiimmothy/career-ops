@@ -236,10 +236,10 @@ export async function POST(req: Request) {
       // Set by the killer so the close handler can tell "we timed it out" apart
       // from "the CLI exited on its own" — different failures, different message.
       let killedByTimeout = false;
-      killer = setTimeout(() => {
-        killedByTimeout = true;
-        try { child.kill("SIGTERM"); } catch { /* ignore */ }
-      }, killMs);
+      // killer = setTimeout(() => {
+      //   killedByTimeout = true;
+      //   try { child.kill("SIGTERM"); } catch { /* ignore */ }
+      // }, killMs);
       // Declared before send() so send() can clear it the moment it sees the
       // client disconnect; assigned just below, once close() exists.
       let heartbeat: ReturnType<typeof setInterval> | undefined;

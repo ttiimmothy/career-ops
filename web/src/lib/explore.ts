@@ -35,9 +35,9 @@ export const DEFAULT_FILTERS: ExploreFilters = {
   block: [],
   blockHard: [],
   alwaysAllow: [],
-  sinceDays: 7,
-  ats: [...ATS_SOURCES],
-  limitPerAts: 150,
+  sinceDays: 1,
+  ats: ["ashby"],
+  limitPerAts: 3000,
 };
 
 export type DiscoveredOffer = {
@@ -140,7 +140,7 @@ export function parseExplorePatch(
   if (raw.since !== undefined) next.sinceDays = clampNum(raw.since, 1, 60, base.sinceDays);
   if (raw.sinceDays !== undefined) next.sinceDays = clampNum(raw.sinceDays, 1, 60, base.sinceDays);
   if (raw.limit !== undefined) next.limitPerAts = clampNum(raw.limit, 50, 500, base.limitPerAts);
-  if (raw.limitPerAts !== undefined) next.limitPerAts = clampNum(raw.limitPerAts, 50, 500, base.limitPerAts);
+  if (raw.limitPerAts !== undefined) next.limitPerAts = clampNum(raw.limitPerAts, 50, 3000, base.limitPerAts);
   if (raw.ats !== undefined) next.ats = cleanAts(raw.ats);
   return next;
 }

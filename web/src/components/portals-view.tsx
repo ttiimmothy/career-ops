@@ -12,7 +12,7 @@ type Result = { available: boolean; configured: boolean; companies: Company[] };
 
 const TONE: Record<string, { dot: string; label: string; chip: string }> = {
   live: { dot: "bg-emerald-500", label: "live", chip: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400" },
-  empty: { dot: "bg-amber-500", label: "live · empty", chip: "bg-amber-500/15 text-amber-700 dark:text-amber-400" },
+  empty: { dot: "bg-amber-500", label: "live · empty", chip: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400" },
   broken: { dot: "bg-red-500", label: "broken", chip: "bg-red-500/15 text-red-700 dark:text-red-400" },
   skipped: { dot: "bg-zinc-400", label: "no ATS", chip: "bg-surface-hover text-muted" },
 };
