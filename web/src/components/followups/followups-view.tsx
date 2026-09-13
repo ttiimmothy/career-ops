@@ -12,7 +12,6 @@ import { scoreTone } from "@/lib/format";
 import {
   type CadenceEntry,
   type CadenceMetadata,
-  type Urgency,
   daysHeatClass,
   followupStatusTone,
   oxfordJoin,
@@ -27,7 +26,7 @@ import { cn } from "@/lib/cn";
 // is the core's followup-cadence.mjs (via /api/followups?full=1) — this view
 // only filters, sorts, and records.
 
-const URGENCY_TABS = ["ALL", "OVERDUE", "URGENT", "WAITING", "COLD"] as const;
+const URGENCY_TABS = ["ALL", "OVERDUE", "WAITING", "COLD"] as const;
 type UrgencyTab = (typeof URGENCY_TABS)[number];
 
 const COLUMNS = [
@@ -35,7 +34,6 @@ const COLUMNS = [
   { key: "role", label: "Role" },
   { key: "score", label: "Score" },
   { key: "status", label: "Status" },
-  { key: "urgency", label: "Urgency" },
   { key: "days", label: "Days since app" },
   { key: "next", label: "Next follow-up" },
   { key: "count", label: "Follow-ups done" },
@@ -57,7 +55,7 @@ function sortVal(e: CadenceEntry, key: SortKey): string | number | null {
     }
     case "status":
       return e.status;
-    case "urgency":
+    // case "urgency":
       // Severity, not alphabetical: negate rank so DESCENDING (▼, the first
       // click) puts the most pressing first — matching how the ▼ glyph reads.
       return -urgencyRank(e.urgency);
@@ -187,7 +185,7 @@ export function FollowupsView() {
   ) : (
     <>
       <span className="tabular-nums">{meta.actionable}</span> active ·{" "}
-      <span className="tabular-nums">{meta.urgent}</span> urgent ·{" "}
+      {/* <span className="tabular-nums">{meta.urgent}</span> urgent ·{" "} */}
       <span className="tabular-nums">{meta.overdue}</span> overdue
     </>
   );
@@ -257,7 +255,7 @@ export function FollowupsView() {
                         onClick={() =>
                           // First click on Urgency descends (most pressing first —
                           // how ▼ reads); other columns start ascending.
-                          setParams({ sort: c.key, dir: active ? dir * -1 : c.key === "urgency" ? -1 : 1 })
+                          setParams({ sort: c.key, dir: active ? dir * -1 : 1 })
                         }
                       >
                         {c.label}
@@ -378,9 +376,9 @@ function FollowupRow({
         <td className="px-2.5 py-3">
           <Badge tone={followupStatusTone(e.status)}>{statusLabel}</Badge>
         </td>
-        <td className="px-2.5 py-3">
+        {/* <td className="px-2.5 py-3">
           <Badge tone={urgencyTone(e.urgency)}>{e.urgency}</Badge>
-        </td>
+        </td> */}
         <td className={cn("px-2.5 py-3 tabular-nums", daysHeatClass(e.daysSinceApplication))}>{e.daysSinceApplication}</td>
         <td className="whitespace-nowrap px-2.5 py-3">
           {e.daysUntilNext == null ? (
