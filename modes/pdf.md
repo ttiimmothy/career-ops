@@ -30,6 +30,7 @@ Run `npm run jd:similarity -- {bundle-root}/jd/current.md {bundle-root}/jd/previ
 6. Detect company location → paper format:
    - US/Canada → `letter`
    - Rest of the world → `a4`
+   - If `config/profile.yml` → `cv.format` is set (`letter` or `a4`), use that instead of the location detection above. It overrides the auto-detection for every render until removed.
 7. Detect role archetype → adapt framing
 8. Before tailoring, optionally compare the new JD with the latest tailored CV or JD. Resolve the application/report first with `node find.mjs {report-or-tracker-number}`. Use the resolved report/JD snapshot as `{new-jd.txt}` and the referenced prior CV or prior JD as `{previous-jd-or-cv.txt}`; if either source cannot be located, do not silently reuse a CV. Run `npm run jd:similarity -- {new-jd.txt} {previous-jd-or-cv.txt}` and display the `decision` and `score`. Reuse is allowed only when the recommendation is `reuse` or the user explicitly overrides it; `reuse-with-edits` still requires the listed edits, and `regenerate` requires the normal tailoring flow.
 9. Build an internal recruiter-side risk map from the JD using `modes/heuristics/recruiter-side.md`: likely doubts, matching evidence, and which document section should address each doubt
@@ -41,7 +42,7 @@ Run `npm run jd:similarity -- {bundle-root}/jd/current.md {bundle-root}/jd/previ
 15. Apply the six-second clarity gate from `modes/heuristics/recruiter-side.md`: top third must make target role, strongest fit, and proof obvious
 16. Read `name` from `config/profile.yml` → normalize to kebab-case lowercase (e.g. "John Doe" → "john-doe") → `{candidate}`
 17. Build the render payload (see the **JSON Input Schema** below) from the tailored content — emit compact structured JSON, **not** full HTML markup — and write it to `/tmp/cv-{candidate}-{company}.json`
-18. Run `node build-cv-html.mjs /tmp/cv-{candidate}-{company}.json {html-path} {template}`, where `{html-path}` is the active bundle's `cv/tailored/vNNN/cv.html` or `output/cv-{candidate}-{company}.html` for a one-off CV, and `{template}` is the path printed by **Selecting the template** below (omit it to use the base template). The script owns every tag, CSS class, and HTML escaping. Keep the HTML outside temporary storage because the dashboard's `D` hotkey regenerates from it.
+18. Run `node build-cv-html.mjs /tmp/cv-{candidate}-{company}.json {html-path} {template}`, where `{html-path}` is the active bundle's `cv/tailored/vNNN/cv.html` or `output/resume-{YYYY-MM-DD}-report{NNN}-{company}.html` for a one-off CV (`{NNN}` is the report number reserved at Step 2), and `{template}` is the path printed by **Selecting the template** below (omit it to use the base template). The script owns every tag, CSS class, and HTML escaping. Keep the HTML outside temporary storage because the dashboard's `D` hotkey regenerates from it — unless you pass `--cleanup-html` to `generate-pdf.mjs` (Step 22) to delete it after rendering. Deleting the HTML also drops the regenerate-from-HTML ability for that row (the `pdf-index.tsv` entry is written with a blank html column), so reserve `--cleanup-html` for one-off CVs you don't intend to regenerate.
 19. Run the fact gate against the generated HTML: `node verify-cv-facts.mjs {html-path}`
     - This is a hard gate before PDF rendering.
     - If it fails, stop and fix the generated HTML by removing invented metrics or adding verified evidence to `cv.md`, `article-digest.md`, or `config/cv-facts.json`.
@@ -52,11 +53,18 @@ Run `npm run jd:similarity -- {bundle-root}/jd/current.md {bundle-root}/jd/previ
     The fact gate proves nothing was invented; it cannot tell you whether these are the *right* bullets for the role. The audit researches the likely reviewer, dispatches a separate subagent role-playing them, and returns a bullet-by-bullet keep/cut/rewrite verdict plus a blunt "would I advance this to a screen?" call. It adds a subagent dispatch plus web research on top of the tailoring, which is why it is opted into rather than run on every PDF.
 
     The audit recommends; the user decides. If they take any rewrite, return to Step 17, rebuild the payload and the HTML, and re-run the fact gate before rendering. The audit is persisted only once that decision is known, and records which rewrites were applied — so the `## HM Audit` section never describes a CV the rendered PDF no longer matches. Do not re-run the audit against the rebuilt CV: a second dispatch doubles the cost for a verdict the user has already acted on.
-21. Execute: `node generate-pdf.mjs {html-path} {pdf-path} --format={letter|a4} --report={report number}`, where `{pdf-path}` is the active bundle's `cv/tailored/vNNN/cv.pdf` or `output/cv-{candidate}-{company}-{YYYY-MM-DD}.pdf` for a one-off CV. `{report number}` is the NNN from the report filename/link (e.g. `008` for `reports/008-acme-….md`), not the tracker `#` column. Pass it whenever the application has (or will have) a report; it records the PDF↔report linkage in `data/pdf-index.tsv` so the dashboard can open and regenerate the exact nested or flat HTML/PDF pair. Omit it only for one-off CVs with no tracker entry.
+21. **PDF gate (HTML-only vs PDF).** Read `config/profile.yml` → `cv.cleanup_html` and branch before rendering:
+    - `cv.cleanup_html` is `false` or absent → the candidate wants the HTML only, no PDF. **Skip Step 22 entirely** (do not run `node generate-pdf.mjs`; leave the HTML from Step 18 in place) and go straight to Step 23.
+    - `cv.cleanup_html` is `true` → proceed to Step 22 (generate the PDF, then delete the intermediate HTML), then Step 23.
+22. Resolve the render flags first. Read `config/profile.yml` → `cv` and pass the following, overriding the script's defaults when the keys are present (the profile is the source the mode prompt reads; the script itself does not read these keys):
+    - `cv.format` (`letter` or `a4`) → `--format={value}`. When absent, use the location detection from Step 6.
+    - `cv.max_pages` (positive integer) → `--max-pages={value}`. When absent, the script defaults to 2 pages (warning-only overflow).
+    - `cv.cleanup_html: true` → add `--cleanup-html` (deletes the input HTML after render; the manifest row is written with a blank html column, so the dashboard's `D` regenerate hotkey has nothing to rebuild that row from). When absent or false, omit the flag to keep the HTML for regeneration.
+   Then execute: `node generate-pdf.mjs {html-path} {pdf-path} --format={letter|a4} --report={report number} [--max-pages=N] [--cleanup-html]`, where `{pdf-path}` is the active bundle's `cv/tailored/vNNN/cv.pdf` or `output/resume-{YYYY-MM-DD}-report{NNN}-{company}.pdf` for a one-off CV (`{NNN}` is the reserved report number). `{report number}` is the NNN from the report filename/link (e.g. `008` for `reports/008-acme-….md`), not the tracker `#` column. Pass it whenever the application has (or will have) a report; it records the PDF↔report linkage in `data/pdf-index.tsv` so the dashboard can open and regenerate the exact nested or flat HTML/PDF pair. Omit it only for one-off CVs with no tracker entry.
     - The rendered PDF has a two-page warning threshold by default. `--max-pages=N` accepts a positive integer; pass `--max-pages=1` when the user or market prefers a one-page CV.
     - If the rendered PDF exceeds its threshold, generation warns loudly with the actual and allowed page counts plus trimming guidance, then reports and indexes the unchanged PDF so existing longer-CV flows keep working.
     - Pass `--strict-pages` only when the user or market requires a hard limit. Strict overflow leaves the draft available for inspection but does not report or index it as successful; trim lower-priority content and rerun.
-22. Report: PDF path, number of pages, keyword coverage %, and any skill gaps from Step 4 still unaddressed
+23. Report: PDF path, number of pages, keyword coverage %, and any skill gaps from Step 4 still unaddressed
 
 ## ATS Rules (clean parsing)
 
@@ -70,7 +78,7 @@ Run `npm run jd:similarity -- {bundle-root}/jd/current.md {bundle-root}/jd/previ
 - Distributed JD keywords: Summary (top 5), first bullet of each role, Skills section
 - No hidden text, keyword stuffing, or white-font tricks. Optimize for parseability plus human review.
 
-**Optional parseability check:** after generating the HTML you can score it for ATS-friendliness with `node verify-ats.mjs output/cv-{candidate}-{company}.html` (see `modes/ats.md`). This is deterministic, read-only, and advisory — it reports a 0-100 score plus concrete issues but never blocks generation (unlike the `verify-cv-facts.mjs` fact gate in Step 18).
+**Optional parseability check:** after generating the HTML you can score it for ATS-friendliness with `node verify-ats.mjs output/resume-{YYYY-MM-DD}-report{NNN}-{company}.html` (see `modes/ats.md`). This is deterministic, read-only, and advisory — it reports a 0-100 score plus concrete issues but never blocks generation (unlike the `verify-cv-facts.mjs` fact gate in Step 18).
 
 ## Recruiter Review Gates
 

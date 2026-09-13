@@ -58,9 +58,11 @@ Read `config/profile.yml`. Check `cv.output_format`:
 - If `"text"`, execute the full pipeline from `modes/text.md`
 - Otherwise (default), execute the full pipeline from `modes/pdf.md`
 
-## Step 4 — Draft Application Answers (only if score >= 4.5)
+**About the PDF gate (configurable):** Before generating, resolve `auto_pdf_score_threshold` from `config/profile.yml`. If the key is absent, default to `0.5`. Generate the PDF only when this run's evaluation score is greater than or equal to the threshold. On a score below the threshold, skip PDF generation: write the report normally, set the header `**PDF:** not generated — run /career-ops pdf {company-slug} to create on demand`, and mark PDF ❌ in the tracker.
 
-If the final score is >= 4.5, generate a draft of responses for the application form:
+## Step 4 — Draft Application Answers
+
+Generate a draft of responses for the application form:
 
 1. **Extract form questions**: Use Playwright to navigate to the form and take a snapshot. If they cannot be extracted, use the generic questions.
 2. **Generate responses** following the tone (see below).
@@ -94,7 +96,13 @@ If the final score is >= 4.5, generate a draft of responses for the application 
 
 **Language**: Always in the language of the JD (EN default). Apply `/tech-translate`.
 
-## Step 5 — Update Tracker
+## Step 5 — Apply Mode (read the real form)
+
+Run the `apply` mode (read `modes/apply.md`) against the posting's application form. This is the live counterpart to Step 4: it navigates to the real form, reads the actual questions, recovers any `## H) Draft Application Answers` as a base, runs the knock-out / work-authorization / salary-floor / jurisdiction-prohibited pre-scans, and generates one-for-one answers to the actual prompts. It always stops before Submit — never submit on the candidate's behalf.
+
+If the posting has no application URL or the form cannot be read (no Playwright, pasted JD text, screenshotless), note that Step 5 could not run and continue to Step 6 — the candidate can run `/career-ops apply <url>` later.
+
+## Step 6 — Update Tracker
 
 Record it in `data/applications.md` with all columns including Report and PDF as ✅.
 

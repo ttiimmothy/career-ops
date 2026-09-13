@@ -12,7 +12,7 @@ type Result = { available: boolean; configured: boolean; companies: Company[] };
 
 const TONE: Record<string, { dot: string; label: string; chip: string }> = {
   live: { dot: "bg-emerald-500", label: "live", chip: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400" },
-  empty: { dot: "bg-amber-500", label: "live · empty", chip: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400" },
+  empty: { dot: "bg-emerald-500", label: "live · empty", chip: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400" },
   broken: { dot: "bg-red-500", label: "broken", chip: "bg-red-500/15 text-red-700 dark:text-red-400" },
   skipped: { dot: "bg-zinc-400", label: "no ATS", chip: "bg-surface-hover text-muted" },
 };
@@ -79,7 +79,7 @@ export function PortalsView() {
           <p className="text-sm text-muted">
             <span className="tabular-nums text-emerald-600 dark:text-emerald-400">{liveN}</span> live ·{" "}
             <span className="tabular-nums text-red-600 dark:text-red-400">{broken.length}</span> broken ·{" "}
-            <span className="tabular-nums">{companies.length}</span> tracked
+            <span className="tabular-nums">{companies.filter((c) => c.status !== "skipped").length}</span> tracked
           </p>
           {broken.length > 0 && (
             <div className="mt-3 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm">
@@ -94,8 +94,8 @@ export function PortalsView() {
             </div>
           )}
           <ul className="mt-4 divide-y divide-border overflow-hidden rounded-2xl border border-border bg-surface/40">
-            {sorted.map((c) => {
-              const t = TONE[c.status] ?? TONE.skipped;
+            {sorted.filter((c) => c.status !== "skipped").map((c) => {
+              const t = TONE[c.status] ?? TONE.live;
               return (
                 <li key={c.name} className="flex items-center gap-3 px-4 py-2.5">
                   <CompanyLogo name={c.name} size={20} />

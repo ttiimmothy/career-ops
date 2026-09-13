@@ -701,7 +701,7 @@ Save full evaluation in `reports/{###}-{company-slug}-{YYYY-MM-DD}.md`.
 (one row per risk signal, fixed order — see the Risk Summary section above)
 
 ## H) Draft Application Answers
-(only if score >= 4.5 — draft answers for the application form)
+(draft answers for the application form)
 
 ---
 
