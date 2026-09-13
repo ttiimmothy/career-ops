@@ -46,12 +46,12 @@ export function PipelineView({
   // tiles' deep links AND the assistant's filterPipeline/navigate actions drive
   // the table identically (no useState mirror → no desync).
   const pTab = (params.get("tab") ?? "").toUpperCase();
-  const tab: Tab = (TABS as readonly string[]).includes(pTab) ? (pTab as Tab) : "INBOX";
+  const tab: Tab = (TABS as readonly string[]).includes(pTab) ? (pTab as Tab) : "ALL";
   const pMin = parseFloat(params.get("min") ?? "");
   const minFilter: number | null = Number.isFinite(pMin) ? pMin : null;
-  const pSort = params.get("sort") ?? "";
+  const pSort = params.get("sort") ?? "date";
   const sortKey: SortKey = (SORT_KEYS as readonly string[]).includes(pSort) ? (pSort as SortKey) : "score";
-  const sort = { key: sortKey, dir: (params.get("dir") === "1" ? 1 : -1) as 1 | -1 };
+  const sort = { key: sortKey, dir: (params.get("dir") === "-1" ? -1 : 1) as 1 | -1 };
 
   // Search stays LOCAL for snappy typing; seeded from the URL and re-synced only
   // when the URL's q changes (i.e. the assistant set it) — never per keystroke.
@@ -207,7 +207,7 @@ export function PipelineView({
                   <th
                     key={k}
                     className="cursor-pointer select-none whitespace-nowrap px-4 py-2.5 font-medium hover:text-foreground"
-                    onClick={() => setParams({ sort: k, dir: sort.key === k ? sort.dir * -1 : -1 })}
+                    onClick={() => setParams({ sort: k, dir: sort.key === k ? sort.dir * -1 : 1 })}
                   >
                     <span className="inline-flex items-center gap-1">
                       {k}
