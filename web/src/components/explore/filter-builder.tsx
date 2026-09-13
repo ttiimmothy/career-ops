@@ -132,14 +132,14 @@ export function FilterBuilder({
         <KeywordField values={filters.negative} tone="exc" placeholder="manager, sales, contract…" onChange={(v) => set({ negative: v })} />
       </div>
 
-      <div className="flex flex-wrap items-end gap-x-8 gap-y-4">
+      <div className="flex flex-wrap items-end gap-x-16 gap-y-4">
         <div>
-          <Label hint="postings published in this window">
+          {/* <Label hint="postings published in this window"> */}
             <span className="inline-flex items-center gap-1.5">
               <Clock className="size-3.5 text-muted" /> Posted within
             </span>
-          </Label>
-          <div className="inline-flex rounded-lg border border-border bg-surface/40 p-0.5">
+          {/* </Label> */}
+          <div className="rounded-lg border border-border bg-surface/40 p-0.5">
             {RECENCY.map((r) => (
               <button
                 key={r.days}
@@ -177,6 +177,7 @@ export function FilterBuilder({
             })}
           </div>
         </div>
+
       </div>
 
       <button
