@@ -181,3 +181,10 @@ documents/*
 # PII (e.g. cv/jane-doe-master-cv.pdf). #1723
 data/intake-state.json
 .codex
+.impeccable/
+
+# Python
+__pycache__/
+.venv/
+.pytest_cache/
+.coverage
