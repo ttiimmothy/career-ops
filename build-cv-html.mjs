@@ -53,7 +53,6 @@ const IMAGE_DATA_URL_RE = /^data:image\/(?:png|jpeg|webp|gif);base64,[a-z0-9+/=\
 
 const DEFAULT_SECTION_TITLES = {
   summary: 'Summary',
-  competencies: 'Core Competencies',
   experience: 'Work Experience',
   projects: 'Projects',
   education: 'Education',

@@ -157,7 +157,6 @@ Write a JSON file with this structure, then run `node build-cv-html.mjs <input.j
   },
   "sections": {
     "summary": "Professional Summary",
-    "competencies": "Core Competencies",
     "experience": "Work Experience",
     "projects": "Projects",
     "education": "Education",
