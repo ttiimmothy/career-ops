@@ -165,24 +165,6 @@
     white-space: nowrap;
   }
 
-  /* === CORE COMPETENCIES === */
-  .competencies-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .competency-tag {
-    font-family: var(--font-family);
-    font-size: 10px;
-    font-weight: 500;
-    color: hsl(187, 74%, 28%);
-    background: hsl(187, 40%, 95%);
-    padding: 4px 10px;
-    border-radius: 3px;
-    border: 1px solid hsl(187, 40%, 88%);
-  }
-
   /* === WORK EXPERIENCE === */
   .job {
     margin-bottom: 14px;
@@ -236,6 +218,46 @@
   .job li strong {
     font-weight: 600;
   }
+  /* === EDUCATION === */
+  .edu-item {
+    margin-bottom: 8px;
+  }
+
+  .edu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .edu-title {
+    font-weight: 600;
+    font-size: var(--font-size);
+    color: #333;
+  }
+
+  .edu-org {
+    color: var(--secondary-color);
+    font-weight: 500;
+  }
+
+  .edu-year {
+    font-size: 10px;
+    color: #777;
+    white-space: nowrap;
+  }
+
+  .edu-location {
+    font-size: 10px;
+    color: #888;
+  }
+
+  .edu-desc {
+    font-size: 10px;
+    color: #666;
+    margin-top: 2px;
+    line-height: 1.5;
+  }
 
   /* === PROJECTS === */
   .project {
@@ -281,49 +303,9 @@
     margin-top: 3px;
   }
 
-  /* === EDUCATION === */
-  .edu-item {
-    margin-bottom: 8px;
-  }
-
-  .edu-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 12px;
-  }
-
-  .edu-title {
-    font-weight: 600;
-    font-size: var(--font-size);
-    color: #333;
-  }
-
-  .edu-org {
-    color: var(--secondary-color);
-    font-weight: 500;
-  }
-
-  .edu-year {
-    font-size: 10px;
-    color: #777;
-    white-space: nowrap;
-  }
-
-  .edu-location {
-    font-size: 10px;
-    color: #888;
-  }
-
-  .edu-desc {
-    font-size: 10px;
-    color: #666;
-    margin-top: 2px;
-    line-height: 1.5;
-  }
 
   /* === CERTIFICATIONS === */
-  .cert-table {
+  /* .cert-table {
     display: table;
     width: 100%;
   }
@@ -355,13 +337,13 @@
     white-space: nowrap;
     text-align: right;
     width: 44px;
-  }
+  } */
 
   /* === AWARDS === */
   /* Same table model as certifications (title / issuer / year on one baseline),
      under its own class names so a template pack can restyle awards without
      dragging certifications along. */
-  .award-table {
+  /* .award-table {
     display: table;
     width: 100%;
   }
@@ -393,13 +375,13 @@
     white-space: nowrap;
     text-align: right;
     width: 44px;
-  }
+  } */
 
   /* === INTERESTS === */
-  .interests-line {
+  /* .interests-line {
     font-size: 10.5px;
     color: #444;
-  }
+  } */
 
   /* === SKILLS === */
   .skills-grid {
@@ -484,7 +466,6 @@
   html[lang="ar"] .section-title,
   html[lang="ar"] .job-company,
   html[lang="ar"] .project-title,
-  html[lang="ar"] .competency-tag,
   html[lang="ar"] .skill-category {
     font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
   }
@@ -533,7 +514,6 @@
   html[lang="ja"] .section-title,
   html[lang="ja"] .job-company,
   html[lang="ja"] .project-title,
-  html[lang="ja"] .competency-tag,
   html[lang="ja"] .skill-category {
    font-family: var(--font-family), 'Hiragino Sans', 'Hiragino Kaku Gothic ProN',
       'Yu Gothic', 'YuGothic', 'Noto Sans CJK JP', 'Noto Sans JP',
@@ -560,14 +540,12 @@
   html[lang="zh-CN"] .job-company,
   html[lang="zh-CN"] .project-title,
   html[lang="zh-CN"] .contact-row,
-  html[lang="zh-CN"] .competency-tag,
   html[lang="zh-CN"] .skill-category,
   html[lang="zh"] .header h1,
   html[lang="zh"] .section-title,
   html[lang="zh"] .job-company,
   html[lang="zh"] .project-title,
   html[lang="zh"] .contact-row,
-  html[lang="zh"] .competency-tag,
   html[lang="zh"] .skill-category {
     font-family: var(--font-family), 'PingFang SC',
       'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans CJK SC',
@@ -594,7 +572,6 @@
   html[lang="ko"] .job-company,
   html[lang="ko"] .project-title,
   html[lang="ko"] .contact-row,
-  html[lang="ko"] .competency-tag,
   html[lang="ko"] .skill-category {
     font-family: var(--font-family), 'Apple SD Gothic Neo',
       'Malgun Gothic', 'Noto Sans CJK KR',
@@ -625,7 +602,6 @@
   html[lang="zh-TW"] .job-company,
   html[lang="zh-TW"] .project-title,
   html[lang="zh-TW"] .contact-row,
-  html[lang="zh-TW"] .competency-tag,
   html[lang="zh-TW"] .skill-category {
     font-family: var(--font-family), 'PingFang TC',
       'Microsoft JhengHei', 'Noto Sans CJK TC',
@@ -654,13 +630,13 @@
     <h1>{{NAME}}</h1>
     <div class="header-gradient"></div>
     <div class="contact-row">
-      <a href="tel:{{PHONE}}">{{PHONE}}</a>
-      <span class="separator">|</span>
-      <a href="mailto:{{EMAIL}}">{{EMAIL}}</a>
-      <span class="separator">|</span>
       <a href="{{LINKEDIN_URL}}">{{LINKEDIN_DISPLAY}}</a>
       <span class="separator">|</span>
       <a href="{{PORTFOLIO_URL}}">{{PORTFOLIO_DISPLAY}}</a>
+      <span class="separator">|</span>
+      <a href="mailto:{{EMAIL}}">{{EMAIL}}</a>
+      <span class="separator">|</span>
+      <a href="tel:{{PHONE}}">{{PHONE}}</a>
       <span class="separator">|</span>
       <span>{{LOCATION}}</span>
     </div>
@@ -672,19 +648,17 @@
     <div class="summary-text">{{SUMMARY_TEXT}}</div>
   </div>
 
-  <!-- CORE COMPETENCIES -->
-  <div class="section">
-    <div class="section-title">{{SECTION_COMPETENCIES}}</div>
-    <div class="competencies-grid">
-      {{COMPETENCIES}}
-    </div>
-  </div>
-
   <!-- WORK EXPERIENCE -->
   <div class="section">
     <div class="section-title">{{SECTION_EXPERIENCE}}</div>
     {{EXPERIENCE}}
   </div>
+  
+    <!-- EDUCATION -->
+    <div class="section">
+      <div class="section-title">{{SECTION_EDUCATION}}</div>
+      {{EDUCATION}}
+    </div>
 
   <!-- PROJECTS -->
   <div class="section">
@@ -692,29 +666,23 @@
     {{PROJECTS}}
   </div>
 
-  <!-- EDUCATION -->
-  <div class="section">
-    <div class="section-title">{{SECTION_EDUCATION}}</div>
-    {{EDUCATION}}
-  </div>
-
   <!-- CERTIFICATIONS -->
-  <div class="section">
+  <!-- <div class="section">
     <div class="section-title">{{SECTION_CERTIFICATIONS}}</div>
     <div class="cert-table">{{CERTIFICATIONS}}</div>
-  </div>
+  </div> -->
 
   <!-- AWARDS -->
-  <div class="section">
+  <!-- <div class="section">
     <div class="section-title">{{SECTION_AWARDS}}</div>
     <div class="award-table">{{AWARDS}}</div>
-  </div>
+  </div> -->
 
   <!-- INTERESTS -->
-  <div class="section">
+  <!-- <div class="section">
     <div class="section-title">{{SECTION_INTERESTS}}</div>
     <div class="interests-line">{{INTERESTS}}</div>
-  </div>
+  </div> -->
 
   <!-- SKILLS -->
   <div class="section">
