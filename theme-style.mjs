@@ -36,6 +36,7 @@ export const STYLE_VAR_MAP = {
   secondary_color: '--secondary-color',
   font_family:     '--font-family',
   font_size:       '--font-size',
+  line_height:     '--line-height',
   margin:          '--page-margin',
 };
 

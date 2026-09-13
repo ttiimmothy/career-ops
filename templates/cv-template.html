@@ -13,6 +13,7 @@
     --secondary-color: hsl(270, 70%, 45%);
     --font-family: "Liberation Sans", 'Helvetica Neue', Arial, 'DejaVu Sans', sans-serif;
     --font-size: 11px;
+    --line-height: 1.5;
     /* Matches generate-pdf.mjs's PDF_PAGE_MARGIN — the actual PDF page margin
        comes from the later @page rule injectPrintPageCss appends (which reads
        this same variable), so this default must match it exactly. */
@@ -52,7 +53,7 @@
   body {
     font-family: var(--font-family);
     font-size: var(--font-size);
-    line-height: 1.5;
+    line-height: var(--line-height);
     color: #1a1a2e;
     background: #ffffff;
     padding: 0;
@@ -96,7 +97,7 @@
     flex-wrap: wrap;
     gap: 8px 14px;
     font-family: var(--font-family);
-    font-size: 10.5px;
+    font-size: calc(var(--font-size) * 0.955);
     line-height: 1.4;
     color: #555;
   }
@@ -137,7 +138,7 @@
 
   .section-title {
     font-family: var(--font-family);
-    font-size: 12px;
+    font-size: calc(var(--font-size) * 1.09);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.06em;
@@ -151,7 +152,7 @@
   /* === PROFESSIONAL SUMMARY === */
   .summary-text {
     font-size: var(--font-size);
-    line-height: 1.7;
+    line-height: var(--line-height);
     color: #2f2f2f;
   }
 
@@ -180,13 +181,13 @@
 
   .job-company {
     font-family: var(--font-family);
-    font-size: 12.5px;
+    font-size: calc(var(--font-size) * 1.136);
     font-weight: 600;
     color: var(--secondary-color);
   }
 
   .job-period {
-    font-size: 10.5px;
+    font-size: calc(var(--font-size) * 0.955);
     color: #777;
     white-space: nowrap;
   }
@@ -199,7 +200,7 @@
   }
 
   .job-location {
-    font-size: 10px;
+    font-size: calc(var(--font-size) * 0.91);
     color: #888;
   }
 
@@ -209,8 +210,8 @@
   }
 
   .job li {
-    font-size: 10.5px;
-    line-height: 1.6;
+    font-size: calc(var(--font-size) * 0.955);
+    line-height: var(--line-height);
     color: #333;
     margin-bottom: 4px;
   }
@@ -242,21 +243,21 @@
   }
 
   .edu-year {
-    font-size: 10px;
+    font-size: calc(var(--font-size) * 0.91);
     color: #777;
     white-space: nowrap;
   }
 
   .edu-location {
-    font-size: 10px;
+    font-size: calc(var(--font-size) * 0.91);
     color: #888;
   }
 
   .edu-desc {
-    font-size: 10px;
+    font-size: calc(var(--font-size) * 0.91);
     color: #666;
     margin-top: 2px;
-    line-height: 1.5;
+    line-height: var(--line-height);
   }
 
   /* === PROJECTS === */
@@ -266,7 +267,7 @@
 
   .project-title {
     font-family: var(--font-family);
-    font-size: 11.5px;
+    font-size: calc(var(--font-size) * 1.045);
     font-weight: 600;
     color: var(--secondary-color);
   }
@@ -281,7 +282,7 @@
   }
 
   .project-badge {
-    font-size: 9px;
+    font-size: calc(var(--font-size) * 0.818);
     font-weight: 500;
     color: var(--accent-color);
     background: hsl(187, 40%, 95%);
@@ -291,16 +292,32 @@
   }
 
   .project-desc {
-    font-size: 10.5px;
+    font-size: calc(var(--font-size) * 0.955);
     color: #444;
     margin-top: 3px;
-    line-height: 1.55;
+    line-height: var(--line-height);
   }
 
   .project-tech {
-    font-size: 9.5px;
+    font-size: calc(var(--font-size) * 0.864);
     color: #888;
     margin-top: 3px;
+  }
+
+  .project ul {
+    padding-left: 18px;
+    margin-top: 3px;
+  }
+
+  .project li {
+    font-size: calc(var(--font-size) * 0.955);
+    line-height: var(--line-height);
+    color: #333;
+    margin-bottom: 4px;
+  }
+
+  .project li strong {
+    font-weight: 600;
   }
 
 
@@ -321,7 +338,7 @@
   }
 
   .cert-title {
-    font-size: 10.5px;
+    font-size: calc(var(--font-size) * 0.955);
     font-weight: 500;
     color: #333;
   }
@@ -332,7 +349,7 @@
   }
 
   .cert-year {
-    font-size: 10px;
+    font-size: calc(var(--font-size) * 0.91);
     color: #777;
     white-space: nowrap;
     text-align: right;
@@ -359,7 +376,7 @@
   }
 
   .award-title {
-    font-size: 10.5px;
+    font-size: calc(var(--font-size) * 0.955);
     font-weight: 500;
     color: #333;
   }
@@ -370,7 +387,7 @@
   }
 
   .award-year {
-    font-size: 10px;
+    font-size: calc(var(--font-size) * 0.91);
     color: #777;
     white-space: nowrap;
     text-align: right;
@@ -379,7 +396,7 @@
 
   /* === INTERESTS === */
   /* .interests-line {
-    font-size: 10.5px;
+    font-size: calc(var(--font-size) * 0.955);
     color: #444;
   } */
 
@@ -391,14 +408,14 @@
   }
 
   .skill-item {
-    font-size: 10.5px;
+    font-size: calc(var(--font-size) * 0.955);
     color: #444;
   }
 
   .skill-category {
     font-weight: 600;
     color: #333;
-    font-size: 10.5px;
+    font-size: calc(var(--font-size) * 0.955);
   }
 
   /* === PRINT === */

@@ -613,13 +613,6 @@ function buildSkills(categories, partial) {
 function buildContactRow(candidate) {
   const c = candidate || {};
   const items = [];
-  if (c.phone) {
-    const tel = sanitizeUrl('tel:' + String(c.phone).replace(/\s+/g, ''));
-    items.push(`<a href="${tel}">${escapeHtml(c.phone)}</a>`);
-  }
-  if (c.email) {
-    items.push(`<a href="${sanitizeUrl('mailto:' + c.email)}">${escapeHtml(c.email)}</a>`);
-  }
   if (c.linkedin && c.linkedin.url) {
     items.push(`<a href="${sanitizeUrl(c.linkedin.url)}">${escapeHtml(c.linkedin.display || c.linkedin.url)}</a>`);
   }
@@ -631,6 +624,13 @@ function buildContactRow(candidate) {
   }
   if (c.portfolio && c.portfolio.url) {
     items.push(`<a href="${sanitizeUrl(c.portfolio.url)}">${escapeHtml(c.portfolio.display || c.portfolio.url)}</a>`);
+  }
+  if (c.email) {
+    items.push(`<a href="${sanitizeUrl('mailto:' + c.email)}">${escapeHtml(c.email)}</a>`);
+  }
+  if (c.phone) {
+    const tel = sanitizeUrl('tel:' + String(c.phone).replace(/\s+/g, ''));
+    items.push(`<a href="${tel}">${escapeHtml(c.phone)}</a>`);
   }
   const sep = '\n      ';
   return `<div class="contact-row">\n      ${items.join(sep)}\n    </div>`;
